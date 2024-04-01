@@ -1,44 +1,93 @@
 import { FastifyInstance } from 'fastify'
 import { knex } from '../database'
-import { z } from 'zod'
-import { randomUUID } from 'node:crypto'
+import { ZodError } from 'zod'
+import { UUID, randomUUID } from 'node:crypto'
+import createCookie from '../middlewares/create-cookie'
+import userBodySchema from '../utils/user-body-schema'
+
+type User =
+  | {
+      id: UUID
+      username?: string
+      email: string
+      password: string
+    }
+  | undefined
 
 export async function usersRoutes(app: FastifyInstance) {
-  app.post('/', async (request, reply) => {
-    const createUserBodySchema = z.object({
-      username: z
-        .string()
-        .min(5, { message: 'Must be 5 or more characters long' }),
-      email: z.string().email({ message: 'Invalid email address' }),
-      password: z
-        .string()
-        .min(5, { message: 'Must be 5 or more characters long' }),
-    })
+  app.post('/register', async (request, reply) => {
+    try {
+      const { username, email, password } = userBodySchema.parse(request.body)
 
-    const { username, email, password } = createUserBodySchema.parse(
-      request.body,
-    )
+      const hasEmail: User = await knex('users').where('email', email).first()
 
-    const id = randomUUID()
-    await knex('users').insert({
-      id,
-      username,
-      email,
-      password,
-    })
+      if (hasEmail) {
+        return reply.status(422).send({
+          error: 'Email sent already registered.',
+        })
+      }
 
-    const sessionId = randomUUID()
+      if (!username) {
+        return reply.status(400).send({
+          error: 'Username not sent.',
+        })
+      }
 
-    reply.cookie('sessionId', sessionId, {
-      path: '/',
-      maxAge: 60 * 60 * 24 * 30 * 2, // 60 days
-    })
+      const id = randomUUID()
+      await knex('users').insert({
+        id,
+        username,
+        email,
+        password,
+      })
 
-    await knex('sessions').insert({
-      session_id: sessionId,
-      user: id,
-    })
+      createCookie(reply, id)
+    } catch (err) {
+      if (err instanceof ZodError) {
+        const errorMessage = JSON.parse(err.message)[0].message
+        return reply.status(400).send({
+          error: errorMessage,
+        })
+      }
+    }
 
     return reply.status(201).send()
   })
+  // Fim do Post Register
+  app.post('/login', async (request, reply) => {
+    try {
+      const { email, password } = userBodySchema.parse(request.body)
+
+      const hasValue: User = await knex('users').where('email', email).first()
+
+      if (!hasValue) {
+        return reply.status(422).send({
+          error: 'Email not found.',
+        })
+      }
+
+      if (password !== hasValue.password) {
+        return reply.status(422).send({
+          error: 'Incorrect password.',
+        })
+      }
+
+      const id = hasValue.id
+
+      createCookie(reply, id)
+
+      return reply.status(200).send({
+        message: 'Login successful.',
+        username: hasValue.username,
+      })
+    } catch (err) {
+      if (err instanceof ZodError) {
+        const errorMessage = JSON.parse(err.message)[0].message
+        return reply.status(400).send({
+          error: errorMessage,
+        })
+      }
+    }
+  })
+  // Fim do Post Login
 }
