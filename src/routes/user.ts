@@ -53,7 +53,7 @@ export async function usersRoutes(app: FastifyInstance) {
 
     return reply.status(201).send()
   })
-  // Fim do Post Register
+  // End Post Register
   app.post('/login', async (request, reply) => {
     try {
       const { email, password } = userBodySchema.parse(request.body)
@@ -89,5 +89,5 @@ export async function usersRoutes(app: FastifyInstance) {
       }
     }
   })
-  // Fim do Post Login
+  // End Post Login
 }
