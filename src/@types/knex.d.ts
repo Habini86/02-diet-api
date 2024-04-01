@@ -1,17 +1,26 @@
 // eslint-disable-next-line
-import { Knex } from 'knex'
+import { UUID } from 'crypto'
 
 declare module 'knex/types/tables' {
   export interface Tables {
     users: {
-      id: string
+      id: UUID
       username: string
       email: string
       password: string
     }
     sessions: {
-      session_id: string
-      user: string
+      session_id: UUID
+      user: UUID
+    }
+    meals: {
+      id: UUID
+      name: string
+      description: string
+      date: Date
+      time: string
+      diet: boolean
+      user: UUID
     }
   }
 }
