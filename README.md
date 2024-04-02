@@ -14,16 +14,16 @@
 ## Requisitos Não Funcionais
 
 - [ ] **RNF01**: O sistema deve garantir que apenas o usuário que criou a refeição possa visualizar, editar e apagar a mesma.
-- [ ] **RNF02**: O registro de um usuário é feito por Nome de Usuário, Email e Senha.
-- [ ] **RNF03**: O login de um usuário é feito pelo Email e Senha.
-- [ ] **RNF04**: O usuário permanece logado por 60 dias corridos, após isso é necessário autenticar novamente.
-- [ ] **RNF05**: O banco de dados utilizado é Postgresql.
-- [ ] **RNF06**: Não pode ter mais de um mesmo email cadastrado no banco de dados.
+- [x] **RNF02**: O registro de um usuário é feito por Nome de Usuário, Email e Senha.
+- [x] **RNF03**: O login de um usuário é feito pelo Email e Senha.
+- [x] **RNF04**: O usuário permanece logado por 60 dias corridos, após isso é necessário autenticar novamente.
+- [x] **RNF05**: O banco de dados utilizado é Postgresql.
+- [x] **RNF06**: Não pode ter mais de um mesmo email cadastrado no banco de dados.
 - [ ] **RNF07**: Uma vez criada a conta, o usuário não poderá alterar nada de seu perfil, apenas as refeições criadas, como por exemplo: Nome de Usuário, Email e Senha.
-- [ ] **RNF08**: Não haverá validação de email.
-- [ ] **RNF09**: A senha precisa possuir no mínimo 5 caracteres, um caracter especial e um caracter em letra maiúscula.
-- [ ] **RNF10**: O nome de usuário precisa possuir no mínimo 5 caracteres.
-- [ ] **RNF11**: O email inserido precisa ser realmente um email, exemplo: exemplo@gmail.com
+- [x] **RNF08**: Não haverá validação de email.
+- [x] **RNF09**: A senha precisa possuir no mínimo 5 caracteres, um caracter especial e um caracter em letra maiúscula.
+- [x] **RNF10**: O nome de usuário precisa possuir no mínimo 5 caracteres.
+- [x] **RNF11**: O email inserido precisa ser realmente um email, exemplo: exemplo@gmail.com
 
 ## Regras de Negócio
 
