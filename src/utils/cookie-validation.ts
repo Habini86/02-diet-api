@@ -34,7 +34,7 @@ export default async function (request: FastifyRequest, reply: FastifyReply) {
 
   if (cookieTime > env.EXPIRED_COOKIE) {
     reply.status(401).send({
-      error: 'Invalid authentication.',
+      error: 'Expired authentication.',
     })
   }
 }
@@ -45,7 +45,7 @@ async function uuidValidation(request: FastifyRequest, reply: FastifyReply) {
   })
 
   try {
-    const cookieHasValid = cookieHasUUID.parse(request.cookies)
+    const cookieHasValid = cookieHasUUID.parse(request.cookies.sessionId)
 
     return cookieHasValid
   } catch (err) {
