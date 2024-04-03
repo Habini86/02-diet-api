@@ -1,9 +1,10 @@
 import { UUID } from 'node:crypto'
 import { FastifyReply, FastifyRequest } from 'fastify'
 
-import { ZodError, z } from 'zod'
+import { z } from 'zod'
 import { knex } from '../database'
 import { env } from '../env'
+import formatZodError from './format-zod-error'
 
 type Cookie =
   | {
@@ -14,8 +15,7 @@ type Cookie =
   | undefined
 
 export default async function (request: FastifyRequest, reply: FastifyReply) {
-  const sessionId = uuidValidation(request, reply)
-
+  const sessionId = await uuidValidation(request, reply)
   const cookie: Cookie = await knex('sessions')
     .where('session_id', sessionId)
     .first()
@@ -41,19 +41,14 @@ export default async function (request: FastifyRequest, reply: FastifyReply) {
 
 async function uuidValidation(request: FastifyRequest, reply: FastifyReply) {
   const cookieHasUUID = z.object({
-    sessionId: z.string().uuid({ message: 'Sign in or register.' }),
+    sessionId: z.coerce.string().uuid({ message: 'Sign in or register.' }),
   })
 
   try {
-    const cookieHasValid = cookieHasUUID.parse(request.cookies.sessionId)
+    const cookieHasValid = cookieHasUUID.parse(request.cookies)
 
-    return cookieHasValid
+    return cookieHasValid.sessionId
   } catch (err) {
-    if (err instanceof ZodError) {
-      const errorMessage = JSON.parse(err.message)[0].message
-      return reply.status(401).send({
-        error: errorMessage,
-      })
-    }
+    formatZodError(err, reply)
   }
 }
