@@ -1,5 +1,6 @@
 import 'dotenv/config'
 import { z } from 'zod'
+import * as math from 'mathjs'
 
 const NodeEnv = ['test', 'production', 'development'] as const
 
@@ -8,7 +9,9 @@ const envSchema = z.object({
   DATABASE_URL: z.string(),
   DATABASE_CLIENT: z.string(),
   PORT: z.coerce.number().default(3333),
-  EXPIRED_COOKIE: z.string().transform(Number),
+  EXPIRED_COOKIE: z.string().transform((value) => {
+    return math.evaluate(value)
+  }),
 })
 
 const _env = envSchema.safeParse(process.env)
