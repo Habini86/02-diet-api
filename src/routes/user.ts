@@ -1,9 +1,9 @@
 import { FastifyInstance } from 'fastify'
 import { knex } from '../database'
-import { ZodError } from 'zod'
 import { UUID, randomUUID } from 'node:crypto'
 import createCookie from '../middlewares/create-cookie'
 import userBodySchema from '../utils/user-body-schema'
+import formatZodError from '../middlewares/format-zod-error'
 
 type User =
   | {
@@ -43,12 +43,7 @@ export async function usersRoutes(app: FastifyInstance) {
 
       createCookie(reply, id)
     } catch (err) {
-      if (err instanceof ZodError) {
-        const errorMessage = JSON.parse(err.message)[0].message
-        return reply.status(400).send({
-          error: errorMessage,
-        })
-      }
+      formatZodError(err, reply)
     }
 
     return reply.status(201).send()
@@ -77,16 +72,10 @@ export async function usersRoutes(app: FastifyInstance) {
       createCookie(reply, id)
 
       return reply.status(200).send({
-        message: 'Login successful.',
         username: hasValue.username,
       })
     } catch (err) {
-      if (err instanceof ZodError) {
-        const errorMessage = JSON.parse(err.message)[0].message
-        return reply.status(400).send({
-          error: errorMessage,
-        })
-      }
+      formatZodError(err, reply)
     }
   })
   // End Post Login
