@@ -7,7 +7,7 @@ export const config: Knex.Config = {
   connection: {
     connectionString: env.DATABASE_URL,
     ssl: {
-      rejectUnauthorized: false,
+      rejectUnauthorized: true,
       ca: fs.readFileSync(env.DATABASE_SSL_CERT).toString(),
     },
   },
