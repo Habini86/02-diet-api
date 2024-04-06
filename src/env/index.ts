@@ -12,6 +12,7 @@ const envSchema = z.object({
   EXPIRED_COOKIE: z.string().transform((value) => {
     return math.evaluate(value)
   }),
+  DATABASE_SSL_CERT: z.string(),
 })
 
 const _env = envSchema.safeParse(process.env)
