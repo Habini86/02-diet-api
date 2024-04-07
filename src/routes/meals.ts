@@ -113,33 +113,6 @@ export async function mealsRoutes(app: FastifyInstance) {
     }
   })
   // End Get List/:ID
-  app.delete('/delete/:id', async (request, reply) => {
-    try {
-      const authentication = request.cookies.sessionId
-
-      const getMealsParamsSchema = z.object({
-        id: z.string().uuid({ message: 'Invalid ID Params.' }),
-      })
-
-      const { id: idMeals } = getMealsParamsSchema.parse(request.params) as {
-        id: UUID
-      }
-
-      const user = await knex('sessions')
-        .where('session_id', authentication)
-        .first()
-
-      await knex('meals').delete().where({
-        user: user!.user,
-        id: idMeals,
-      })
-
-      return reply.status(200).send({ message: 'Meals deleted sucessfully' })
-    } catch (err) {
-      formatZodError(err, reply)
-    }
-  })
-  // End Delete Delete/:ID
   app.get('/metrics', async (request, reply) => {
     try {
       const authentication = request.cookies.sessionId
@@ -186,6 +159,33 @@ export async function mealsRoutes(app: FastifyInstance) {
     }
   })
   // End Get Metrics
+  app.delete('/delete/:id', async (request, reply) => {
+    try {
+      const authentication = request.cookies.sessionId
+
+      const getMealsParamsSchema = z.object({
+        id: z.string().uuid({ message: 'Invalid ID Params.' }),
+      })
+
+      const { id: idMeals } = getMealsParamsSchema.parse(request.params) as {
+        id: UUID
+      }
+
+      const user = await knex('sessions')
+        .where('session_id', authentication)
+        .first()
+
+      await knex('meals').delete().where({
+        user: user!.user,
+        id: idMeals,
+      })
+
+      return reply.status(200).send({ message: 'Meals deleted sucessfully' })
+    } catch (err) {
+      formatZodError(err, reply)
+    }
+  })
+  // End Delete Delete/:ID
   app.put('/put/:id', async (request, reply) => {
     try {
       const authentication = request.cookies.sessionId
