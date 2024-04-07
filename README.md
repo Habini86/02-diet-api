@@ -5,11 +5,11 @@
 - [x] **RF01**: O sistema deve permitir a criação de um usuário.
 - [x] **RF02**: O sistema deve ser capaz de identificar o usuário entre as requisições.
 - [x] **RF03**: O sistema deve permitir o registro de uma refeição feita pelo usuário, contendo as seguintes informações: Nome, Descrição, Data e Hora, e se está dentro ou não da dieta.
-- [ ] **RF04**: O sistema deve permitir a edição de uma refeição, podendo alterar todas as informações registradas.
-- [ ] **RF05**: O sistema deve permitir a exclusão de uma refeição.
+- [x] **RF04**: O sistema deve permitir a edição de uma refeição, podendo alterar todas as informações registradas.
+- [X] **RF05**: O sistema deve permitir a exclusão de uma refeição.
 - [x] **RF06**: O sistema deve permitir a listagem de todas as refeições de um usuário.
-- [ ] **RF07**: O sistema deve permitir a visualização de uma única refeição.
-- [ ] **RF08**: O sistema deve permitir a recuperação das métricas de um usuário, como quantidade total de refeições registradas, quantidade total de refeições dentro da dieta, quantidade total de refeições fora da dieta, e a melhor sequência de refeições dentro da dieta.
+- [x] **RF07**: O sistema deve permitir a visualização de uma única refeição.
+- [x] **RF08**: O sistema deve permitir a recuperação das métricas de um usuário, como quantidade total de refeições registradas, quantidade total de refeições dentro da dieta, quantidade total de refeições fora da dieta, e a melhor sequência de refeições dentro da dieta.
 
 ## Requisitos Não Funcionais
 
@@ -27,4 +27,4 @@
 
 ## Regras de Negócio
 
-- [ ] **RN01**: As refeições devem ser relacionadas a um usuário.
+- [X] **RN01**: As refeições devem ser relacionadas a um usuário.
