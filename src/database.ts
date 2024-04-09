@@ -5,7 +5,7 @@ export const config: Knex.Config = {
   client: env.DATABASE_CLIENT,
   connection: {
     connectionString: env.DATABASE_URL,
-    ssl: true,
+    ssl: false,
   },
   useNullAsDefault: true,
   migrations: {
