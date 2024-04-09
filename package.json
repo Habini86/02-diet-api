@@ -2,35 +2,37 @@
   "name": "02-diet-api",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
+  "type": "commonjs",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "knex": "node --import tsx ./node_modules/.bin/knex",
     "lint": "eslint src --ext .ts --fix",
     "dev": "tsx watch ./src/server.ts",
-    "back": "npm run knex -- migrate:rollback && npm run knex -- migrate:latest"
+    "back": "npm run knex -- migrate:rollback && npm run knex -- migrate:latest",
+    "build": "tsup src --out-dir build --target esnext --clean"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@fastify/cookie": "^9.3.1",
-    "@types/node": "^20.12.2",
+    "@types/node": "^20.12.5",
     "dotenv": "^16.4.5",
     "fastify": "^4.26.2",
     "knex": "^3.1.0",
     "mathjs": "^12.4.1",
-    "pg": "^8.11.4",
+    "pg": "^8.11.5",
     "zod": "^3.22.4"
   },
   "devDependencies": {
     "@rocketseat/eslint-config": "^2.2.2",
     "@types/supertest": "^6.0.2",
-    "eslint": "^8.57.0",
+    "eslint": "^9.0.0",
     "supertest": "^6.3.4",
     "tsup": "^8.0.2",
-    "tsx": "^4.7.1",
-    "typescript": "^5.4.3",
+    "tsx": "^4.7.2",
+    "typescript": "^5.4.4",
     "vitest": "^1.4.0"
   }
 }

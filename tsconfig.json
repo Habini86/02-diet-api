@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "baseUrl": ".", 
+    "paths": {
+      "*": ["node_modules/*", "path/to/your/modules/*"]
+    },
+  }
+}
