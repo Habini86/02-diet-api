@@ -5,6 +5,7 @@ import mealsBodySchema from '../utils/meals-body-schema'
 import formatZodError from '../middlewares/format-zod-error'
 import { UUID, randomUUID } from 'node:crypto'
 import { z } from 'zod'
+import mealsIsExists from '../middlewares/meals-is-exists'
 
 export async function mealsRoutes(app: FastifyInstance) {
   app.addHook('preHandler', cookieValidation)
@@ -89,23 +90,24 @@ export async function mealsRoutes(app: FastifyInstance) {
         .where('session_id', authentication)
         .first()
 
-      const _meals = await knex('meals')
+      const _meals = await knex("meals")
         .where({
           user: user!.user,
           id: idMeals,
         })
         .first()
 
-      const meal = _meals
-        ? {
-            id: _meals.id,
-            name: _meals.name,
-            description: _meals.description,
-            time: _meals.time,
-            date: new Date(_meals.date).toISOString().split('T')[0],
-            diet: _meals.diet,
-          }
-        : undefined
+      mealsIsExists(_meals, reply)
+
+      const meal = {
+        id: _meals.id,
+        name: _meals.name,
+        description: _meals.description,
+        time: _meals.time,
+        date: new Date(_meals.date).toISOString().split('T')[0],
+        diet: _meals.diet,
+      }
+
 
       return reply.status(200).send({ meal })
     } catch (err) {
@@ -175,6 +177,11 @@ export async function mealsRoutes(app: FastifyInstance) {
         .where('session_id', authentication)
         .first()
 
+      mealsIsExists(await knex('meals').where({
+        user: user!.user,
+        id: idMeals,
+      }).first(), reply)
+
       await knex('meals').delete().where({
         user: user!.user,
         id: idMeals,
@@ -212,6 +219,11 @@ export async function mealsRoutes(app: FastifyInstance) {
       const user = await knex('sessions')
         .where('session_id', authentication)
         .first()
+
+      mealsIsExists(await knex('meals').where({
+        user: user!.user,
+        id: idMeals,
+      }).first(), reply)
 
       await knex('meals')
         .update({
