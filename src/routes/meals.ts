@@ -90,7 +90,7 @@ export async function mealsRoutes(app: FastifyInstance) {
         .where('session_id', authentication)
         .first()
 
-      const _meals = await knex("meals")
+      const _meals = await knex('meals')
         .where({
           user: user!.user,
           id: idMeals,
@@ -107,7 +107,6 @@ export async function mealsRoutes(app: FastifyInstance) {
         date: new Date(_meals.date).toISOString().split('T')[0],
         diet: _meals.diet,
       }
-
 
       return reply.status(200).send({ meal })
     } catch (err) {
@@ -177,10 +176,15 @@ export async function mealsRoutes(app: FastifyInstance) {
         .where('session_id', authentication)
         .first()
 
-      mealsIsExists(await knex('meals').where({
-        user: user!.user,
-        id: idMeals,
-      }).first(), reply)
+      mealsIsExists(
+        await knex('meals')
+          .where({
+            user: user!.user,
+            id: idMeals,
+          })
+          .first(),
+        reply,
+      )
 
       await knex('meals').delete().where({
         user: user!.user,
@@ -220,10 +224,15 @@ export async function mealsRoutes(app: FastifyInstance) {
         .where('session_id', authentication)
         .first()
 
-      mealsIsExists(await knex('meals').where({
-        user: user!.user,
-        id: idMeals,
-      }).first(), reply)
+      mealsIsExists(
+        await knex('meals')
+          .where({
+            user: user!.user,
+            id: idMeals,
+          })
+          .first(),
+        reply,
+      )
 
       await knex('meals')
         .update({
