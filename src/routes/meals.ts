@@ -57,12 +57,13 @@ export async function mealsRoutes(app: FastifyInstance) {
         const { id, name, description, time, date, diet } = meal
         const _date = new Date(date)
         const formattedDate = _date.toISOString().split('T')[0]
+        const [hours, minutes] = time.split(':')
 
         return {
           id,
           name,
           description,
-          time,
+          time: `${hours}:${minutes}`,
           date: formattedDate,
           diet,
         }
@@ -98,12 +99,12 @@ export async function mealsRoutes(app: FastifyInstance) {
         .first()
 
       mealsIsExists(_meals, reply)
-
+      const [hours, minutes] = _meals.time.split(':')
       const meal = {
         id: _meals.id,
         name: _meals.name,
         description: _meals.description,
-        time: _meals.time,
+        time: `${hours}:${minutes}`,
         date: new Date(_meals.date).toISOString().split('T')[0],
         diet: _meals.diet,
       }
