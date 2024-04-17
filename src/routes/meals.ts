@@ -51,7 +51,11 @@ export async function mealsRoutes(app: FastifyInstance) {
         .where('session_id', authentication)
         .first()
 
-      const _meals = await knex('meals').where('user', user!.user)
+      const _meals = await knex('meals')
+        .where('user', user!.user)
+        .orderBy('date', 'desc')
+        .orderBy('time', 'desc')
+        .groupBy('date', 'time')
 
       const meals = await _meals.map((meal) => {
         const { id, name, description, time, date, diet } = meal
