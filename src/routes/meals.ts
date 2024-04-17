@@ -19,7 +19,7 @@ export async function mealsRoutes(app: FastifyInstance) {
       const year = date.getUTCFullYear()
       const month = date.getUTCMonth() + 1
       const day = date.getUTCDate()
-      const formattedDate = new Date(`${year}-${day}-${month}`)
+      const formattedDate = new Date(`${year}-${month}-${day}`)
 
       const postgresTime = time + ':00'
 
