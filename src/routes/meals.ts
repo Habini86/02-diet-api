@@ -55,7 +55,6 @@ export async function mealsRoutes(app: FastifyInstance) {
         .where('user', user!.user)
         .orderBy('date', 'desc')
         .orderBy('time', 'desc')
-        .groupBy('date', 'time')
 
       const meals = await _meals.map((meal) => {
         const { id, name, description, time, date, diet } = meal
