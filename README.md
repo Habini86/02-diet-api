@@ -48,4 +48,4 @@
 ## Observações
 
 - [x] A API não possui endpoints para alterar o nome de usuário, email ou senha do usuário.
-- [x] A validação do email não é realizada no momento do cadastro do usuário.
+- [x] A validação de token ao email não é realizada no momento do cadastro do usuário.
