@@ -5,7 +5,7 @@
   "main": "server.js",
   "type": "commonjs",
   "scripts": {
-    "test": "vitest ./test/users.spec.ts && vitest ./test/meals.spec.ts",
+    "test": "vitest",
     "knex": "node --import tsx ./node_modules/.bin/knex",
     "lint": "eslint src --ext .ts --fix",
     "dev": "tsx watch ./src/server.ts",
