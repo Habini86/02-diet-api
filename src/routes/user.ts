@@ -7,11 +7,11 @@ import formatZodError from '../middlewares/format-zod-error'
 
 type User =
   | {
-      id: UUID
-      username?: string
-      email: string
-      password: string
-    }
+    id: UUID
+    username?: string
+    email: string
+    password: string
+  }
   | undefined
 
 export async function usersRoutes(app: FastifyInstance) {
@@ -22,13 +22,13 @@ export async function usersRoutes(app: FastifyInstance) {
       const hasEmail: User = await knex('users').where('email', email).first()
 
       if (hasEmail) {
-        return reply.status(422).send({
+        return reply.status(409).send({
           error: 'Email sent already registered.',
         })
       }
 
       if (!username) {
-        return reply.status(400).send({
+        return reply.status(422).send({
           error: 'Username not sent.',
         })
       }

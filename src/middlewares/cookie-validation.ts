@@ -8,10 +8,10 @@ import formatZodError from './format-zod-error'
 
 type Cookie =
   | {
-      session_id: UUID
-      user: UUID
-      created_at: string
-    }
+    session_id: UUID
+    user: UUID
+    created_at: string
+  }
   | undefined
 
 export default async function (request: FastifyRequest, reply: FastifyReply) {
@@ -33,7 +33,7 @@ export default async function (request: FastifyRequest, reply: FastifyReply) {
   )
 
   if (cookieTime > env.EXPIRED_COOKIE) {
-    reply.status(401).send({
+    reply.status(403).send({
       error: 'Expired authentication.',
     })
   }

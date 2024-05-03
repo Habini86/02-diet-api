@@ -6,7 +6,7 @@ export default async function (
   reply: FastifyReply,
 ) {
   if (!meals) {
-    reply.status(404).send({
+    reply.status(422).send({
       message: 'ID Meals not found.',
     })
   }

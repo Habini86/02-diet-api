@@ -195,7 +195,7 @@ export async function mealsRoutes(app: FastifyInstance) {
         id: idMeals,
       })
 
-      return reply.status(200).send({ message: 'Meals deleted sucessfully' })
+      return reply.status(204).send()
     } catch (err) {
       formatZodError(err, reply)
     }
